@@ -12,7 +12,7 @@ public class ModelTest {
     private Environment environment;
     private Things underware;
     private Things matress;
-    private Things bagOfCornFlakes;
+    private BagOfCornFlakes bagOfCornFlakes;
 
     @BeforeEach
     public void setUp() {
@@ -38,17 +38,19 @@ public class ModelTest {
         artur.addAction(new Actions("look at fedor"));
         artur.addAction(new Actions("blink"));
         environment.addObject(artur);
-        bagOfCornFlakes = new Things("bag of corn flakes");
+        bagOfCornFlakes = new BagOfCornFlakes("bag of corn flakes");
     }
 
     @Test
     public void isConfident_shouldReturnTrueIfAllConditionsChecked() {
         environment.addObject(bagOfCornFlakes);
+        bagOfCornFlakes.setPower(100);
         boolean actualResult = artur.isConfident(
                 (environment1) -> environment1.contains(underware)
                         && environment1.contains(matress)
                         && environment1.contains(fedor)
-                        && environment1.contains(bagOfCornFlakes),
+                        && environment1.contains(bagOfCornFlakes)
+                        && bagOfCornFlakes.getPower()>artur.getMinConfident(),
                 environment
         );
         environment.deleteObject(bagOfCornFlakes);
@@ -62,6 +64,19 @@ public class ModelTest {
                         && environment1.contains(matress)
                         && environment1.contains(fedor)
                         && environment1.contains(bagOfCornFlakes),
+                environment
+        );
+        Assertions.assertFalse(actualResult);
+    }
+    @Test
+    public void isConfident_shouldReturnFalseIfBagOfCornFlakesHasNotALotConfident() {
+        bagOfCornFlakes.setPower(0);
+        boolean actualResult = artur.isConfident(
+                (environment1) -> environment1.contains(underware)
+                        && environment1.contains(matress)
+                        && environment1.contains(fedor)
+                        && environment1.contains(bagOfCornFlakes)
+                        && bagOfCornFlakes.getPower()<artur.getMinConfident(),
                 environment
         );
         Assertions.assertFalse(actualResult);
@@ -85,5 +100,26 @@ public class ModelTest {
     @Test
     public void allowSmth_shouldThrowExceptionIfThingDoesntExist() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> fedor.allowSmth(new Actions("allow"), new Things("bottle2")));
+    }
+
+    @Test
+    public void addThing_shouldCorrectlyAddSameThing() {
+        environment.addObject(bottle);
+        environment.addObject(bottle);
+        Assertions.assertTrue(environment.contains(bottle));
+    }
+    @Test
+    public void deleteObject_shouldCorrectlyDeleteObject() {
+        Things things = new Things("d");
+        environment.deleteObject(things);
+        Assertions.assertFalse(environment.contains(things));
+    }
+    @Test
+    public void deleteObject_shouldCorrectlyWorkWithNull() {
+        environment.deleteObject(null);
+    }
+    @Test
+    public void addObject_shouldCorrectlyWorkWithNull() {
+        environment.addObject(null);
     }
 }

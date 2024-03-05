@@ -1,10 +1,12 @@
 package org.example.task3;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Environment {
-    private final List<AbstractObject> abstractObjects = new ArrayList<>();
+    private final Set<AbstractObject> abstractObjects = new HashSet<>();
 
     public void addObject(AbstractObject abstractObject){
         abstractObjects.add(abstractObject);

@@ -21,6 +21,10 @@ public class Dfs {
     }
 
     public void dfs(int n) {
+        if(vertex.isEmpty()){
+            return;
+
+        }
         visited.add(n);
         for (Integer child : vertex.get(n)) {
             if (!visited.contains(child)) {

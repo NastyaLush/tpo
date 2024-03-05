@@ -8,6 +8,17 @@ public class Person extends AbstractObject{
     private final List<Things> things = new ArrayList<>();
     private final List<Actions> actions = new ArrayList<>();
     private final String homeTown;
+    private Integer minConfident=10;
+
+    public Person(String name,String homeTown, Integer minConfident) {
+        super(name);
+        this.homeTown = homeTown;
+        this.minConfident = minConfident;
+    }
+
+    public Integer getMinConfident() {
+        return minConfident;
+    }
 
     public Person(String name, String homeTown) {
         super(name);

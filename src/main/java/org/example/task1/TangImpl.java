@@ -2,23 +2,30 @@ package org.example.task1;
 
 public class TangImpl {
 
-    public static double tan(double x, int n) {
+    public static double tan(double x, double n) {
         return sin(x, n) / cos(x, n);
     }
 
-    private static double sin(double x, int n) {
+    private static double sin(double x, double n) {
         double ans = 0;
-        for (int i = 0; i < n; i++) {
+        double prev = 1;
+        int i=0;
+        while (Math.abs(ans - prev) > n) {
+            prev=ans;
             ans += Math.pow(-1, i) / fact(2 * i + 1) * Math.pow(x, 2 * i + 1);
+            i++;
         }
         return ans;
     }
 
-    private static double cos(double x, int n) {
+    private static double cos(double x, double n) {
         double ans = 0;
-
-        for (int i = 0; i < n; i++) {
+        double prev = 1;
+        int i=0;
+        while (Math.abs(ans - prev) > n) {
+            prev=ans;
             ans += Math.pow(-1, i) / fact(2 * i) * Math.pow(x, 2 * i);
+            i++;
         }
         return ans;
     }
